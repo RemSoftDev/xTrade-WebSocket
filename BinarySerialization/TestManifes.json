@@ -1,0 +1,135 @@
+﻿{
+  "client": [
+    {
+      "id": 17,
+      "name": "values",
+      "data": {
+        "valChar": "char",
+        "valByte": "byte",
+        "valUByte": "ubyte",
+        "valInt16": "int16",
+        "valUInt16": "uint16",
+        "valInt32": "int32",
+        "valUInt32": "uint32",
+        "valObject": {
+          "objChar": "char",
+          "objInt32": "int32",
+          "objFloat": "double",
+          "objDate": "date"
+        },
+        "valFloat": "ﬂoat",
+        "valDouble": "double",
+        "valCurrency": "currency",
+        "valString": "string",
+        "valDateTime": "datetime",
+        "valDate": "date",
+        "valTime": "time"
+      },
+       {
+      "id": 2,
+      "name": "history",
+      "data": [
+        {
+          "date": "int32",
+          "int32": "int32"
+        },
+        {
+          "byte": "byte",
+          "bool": "bool"
+        },
+        {
+          "date": "date",
+          "string": "string"
+        }
+      ]
+    }
+    },
+    {
+      "id": 29,
+      "name": "arrays",
+      "data": {
+        "arrChar": [ { "valChar": "char" } ],
+        "arrInt32": [ { "valInt32": "int32" } ],
+        "arrFloat": [
+          {
+            "valFloat": "double"
+          }
+        ],
+        "arrDate": [ { "valDate": "date" } ],
+        "arrMixed": [
+          {
+            "valChar": "char",
+            "valInt32": "int32",
+            "valFloat": "double",
+            "valDate": "date"
+          }
+        ]
+      }
+    }
+  ],
+  "server": [
+    {
+      "id": 48,
+      "name": "values",
+      "data": {
+        "valChar": "char",
+        "valByte": "byte",
+        "valUByte": "ubyte",
+        "valInt16": "int16",
+        "valUInt16": "uint16",
+        "valInt32": "int32",
+        "valUInt32": "uint32",
+        "valObject": {
+          "objChar": "char",
+          "objInt32": "int32",
+          "objFloat": "double",
+          "objDate": "date"
+        },
+        "valFloat": "ﬂoat",
+        "valDouble": "double",
+        "valCurrency": "currency",
+        "valString": "string",
+        "valDateTime": "datetime",
+        "valDate": "date",
+        "valTime": "time"
+      },
+      {
+      "id": 2,
+      "name": "history",
+      "data": [
+        {
+          "date": "int32",
+          "int32": "int32"
+        },
+        {
+          "byte": "byte",
+          "bool": "bool"
+        },
+        {
+          "date": "date",
+          "string": "string"
+        }
+      ]
+    }
+    },
+    {
+      "id": 211,
+      "name": "arrays",
+      "data": {
+        "arrChar": [ { "valChar": "char" } ],
+        "arrInt32": [ { "valInt32": "int32" } ],
+        "arrFloat": [ { "valFloat": "double" } ],
+        "arrDate": [ { "valDate": "date" } ],
+        "Uint16": [ { "uint": "uint16" } ],
+        "arrMixed": [
+          {
+            "valChar": "char",
+            "valInt32": "int32",
+            "valFloat": "double",
+            "valDate": "date"
+          }
+        ]
+      }
+    }
+  ]
+}

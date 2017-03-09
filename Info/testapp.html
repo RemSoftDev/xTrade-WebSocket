@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TestApp</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="datetime.js"></script>
+    <script type="text/javascript" src="manifest.js"></script>
+    <script type="text/javascript" src="websocket.js"></script>
+    <script type="text/javascript" src="protocol.js"></script>
+    <script type="text/javascript">
+
+        Console = function (id, title) {
+            var el = $('#' + id);
+            this.clear = function () { el.html('<span style="color: #aaa">' + title + '</span>'); return this; };
+            this.log = function (text, indent) {
+                var tabs = '';
+                for (var i = 0; i < indent; i++) tabs += '\t';
+                el.html(el.html() + '\n' + tabs + text);
+                return this;
+            };
+            this.print = function (obj, indent) {
+                if (indent === undefined) indent = 0;
+                for (var key in obj) {
+                    if (!obj.hasOwnProperty(key)) continue;
+                    if (typeof obj[key] != 'object') {
+                        this.log(key + ': ' + obj[key], indent)
+                    }
+                    else if (!(obj[key] instanceof Array)) {
+                        this.log(key + ': ', indent);
+                        this.print(obj[key], indent + 1);
+                    }
+                    else {
+                        this.log(key + ': Array', indent);
+                        for (var i in obj[key]) {
+                            this.log('[' + i + ']', indent + 1);
+                            this.print(obj[key][i], indent + 1);
+                        }
+                    }
+                }
+            };
+            this.clear();
+        };
+
+        function onLoad() {
+            window.client = new Console('request', 'Request console');
+            window.server = new Console('response', 'Response console');
+            window.protocol = new Protocol('client', manifest);
+            if (window.FileReader !== undefined) window.reader = new FileReader();
+
+            if (window.WebSocket === undefined) {
+                console.error('Your browser does not support WebSockets');
+            }
+            else {
+                client.log('Connecting to server...');
+                WS.connect('ws://widget.earningsdata.com:80/data/', true, onConnect, onError);
+                WS.debug(true);
+            }
+        }
+
+        function onConnect() {
+            client.log('Connected');
+            server.log('Server accepted connection');
+            $('.btn').attr('disabled', false);
+        }
+
+        function onError() {
+            client.log('Connection failed');
+        }
+
+        function processRequest(response, onSuccess) {
+            var isValid = function (response) {
+                if (!response) {
+                    server.log('Unknown command ID received - unable to decode');
+                    return false;
+                }
+                else if (!response.action) {
+                    server.log('An error occurred while trying to get data');
+                    return false;
+                }
+                else if (response.action === 'error') {
+                    server.log(response.data.message);
+                    return false;
+                }
+                return true;
+            };
+
+            reader.onload = function() {
+                response = protocol.decode(reader.result);
+                if (isValid(response)) onSuccess(response);
+            };
+            reader.readAsBinaryString(response);
+        }
+
+        function sendCustom() {
+            var str = $('#str').val();
+            try {
+                var data = JSON.parse(str);
+            }
+            catch (e) {
+                client.log(e);
+                return;
+            }
+            client.clear().log(str).log('').print(data);
+            WS.send(str, function (response) {
+                processRequest(response, function (response) {
+                    server.clear().log(JSON.stringify(response.data)).log('').print(response.data);
+                });
+            });
+        }
+
+        function genValues(pattern) {
+            var data = {};
+            for (var key in pattern) {
+                if (!pattern.hasOwnProperty(key)) continue;
+                if (Math.random() < 0.333) continue;
+                if (typeof pattern[key] != 'object') {
+                    switch (pattern[key]) {
+                        case 'char': data[key] = ('qwertyuiopASDFGHJKLzxcvbnm').charAt(Math.floor(Math.random() * 26)); break;
+                        case 'byte': data[key] = Math.floor(Math.random() * 255) - 128; break;
+                        case 'ubyte': data[key] = Math.floor(Math.random() * 255); break;
+                        case 'int16': data[key] = Math.floor(Math.random() * 65535) - 32768; break;
+                        case 'uint16': data[key] = Math.floor(Math.random() * 65535); break;
+                        case 'int32': data[key] = Math.floor(Math.random() * 4294967296); break;
+                        case 'uint32': data[key] = Math.floor(Math.random() * 4294967296) - 2147483648; break;
+                        case 'float': data[key] = Math.random(); break;
+                        case 'double': data[key] = Math.random() * 100; break;
+                        case 'currency': data[key] = Math.round(Math.random() * 100000) / 100; break;
+                        case 'string': data[key] = 'Abbbra-kadabbbra #' + Math.ceil(Math.random() * 100); break;
+                        case 'datetime': data[key] = new DateTime().subtract(Math.round(Math.random() * 1000000000000)).timestamp(); break;
+                        case 'date': data[key] = new DateTime().subtract(Math.round(Math.random() * 1000000000000)).format('Y-m-d'); break;
+                        case 'time': data[key] = new DateTime().subtract(Math.round(Math.random() * 86400000)).format('H:i:s'); break;
+                    }
+                }
+                else if (!(pattern[key] instanceof Array)) {
+                    data[key] = genValues(pattern[key]);
+                }
+                else {
+                    data[key] = [];
+                    var count = Math.floor(Math.random() * 10);
+                    for (var i = 0; i < count; i++) data[key].push(genValues(pattern[key][0]));
+                }
+            }
+            return data;
+        }
+
+        function sendValues(index) {
+            var pattern = manifest.client[index].data;
+            var action = index == 0 ? 'values' : 'arrays';
+            var data = {
+                action: action,
+                data: genValues(pattern)
+            };
+            var str = JSON.stringify(data);
+            client.clear().log(str).log('').print(data);
+            WS.send(str, function (response) {
+                processRequest(response, function (response) {
+                    server.clear().log(JSON.stringify(response.data)).log('').print(response.data);
+                });
+            });
+        }
+
+    </script>
+    <style type="text/css">
+        .wrapper {
+            margin: 5px 0px;
+            border: 5px solid black;
+        }
+        .console {
+            margin: 0px;
+            width: 100%;
+            height: 300px;
+            background-color: black;
+            color: white;
+            font-family: "Courier New";
+            font-size: 10px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body onload="onLoad()">
+
+<div class="wrapper">
+    <pre id="request" class="console">Request console</pre>
+</div>
+<input class="btn" disabled="disabled" type="button" value="Run values test" onclick="sendValues(0)"/>
+<input class="btn" disabled="disabled" type="button" value="Run arrays test" onclick="sendValues(1)"/>
+<input class="btn" disabled="disabled" type="button" value="Send custom string:" onclick="sendCustom()"/>
+<input id="str" type="text" value='{"action": "stock", "symbol": "AAPL"}' style="width: 800px"/>
+<div class="wrapper">
+    <pre id="response" class="console">Response console</pre>
+</div>
+
+</body>
+</html>

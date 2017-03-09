@@ -1,0 +1,14 @@
+﻿{
+  "server": {
+    "id": 101,
+    "name": "lastpayment",
+    "data": {
+      "date": "2014-08-01",
+      "datee": "aaa",
+      "dateebool": true,
+      "dater": 1,
+      "datet": 32
+
+    }
+  }
+}

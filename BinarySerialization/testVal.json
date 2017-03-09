@@ -1,0 +1,24 @@
+﻿{
+  "server": {
+    "id": 29,
+    "name": "arrays",
+    "data": {
+      "arrChar": [ { "valChar": "c" } ],
+      "arrInt32": [ { "valInt32": "32" } ],
+      "arrFloat": [
+        {
+          "valFloat": "21"
+        }
+      ],
+      "arrDate": [ { "valDate": "2014-08-01" } ],
+      "arrMixed": [
+        {
+          "valChar": "q",
+          "valInt32": "342",
+          "valDate": "2014-08-01"
+        }
+      ]
+    }
+
+  }
+}

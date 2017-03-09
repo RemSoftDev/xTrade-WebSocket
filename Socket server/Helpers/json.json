@@ -1,0 +1,32 @@
+﻿{
+  client: [
+    {
+      id: 7,
+      name: "members",
+      data: [
+        {
+          user_id: "int32",
+          ﬁrst_name: "string",
+          last_name: "string",
+          date_of_birth: "date",
+          balance: "ﬂoat"
+        }
+      ]
+    }
+  ],
+  server: [
+    {
+      id: 4,
+      name: "members",
+      data: [
+        {
+          user_id: "int32",
+          ﬁrst_name: "string",
+          last_name: "string",
+          date_of_birth: "date",
+          balance: "ﬂoat"
+        }
+      ]
+    }
+  ]
+}

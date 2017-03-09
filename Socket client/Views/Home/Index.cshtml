@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    var zxc = HttpRuntime.AppDomainAppPath;
+    string d = Directory.GetParent(zxc).Parent.FullName + @"\BinarySerialization\Manifest.json";
+    string[] b = File.ReadAllLines(d);
+    string c = string.Empty;
+
+    c = String.Join(c, b);
+    c = c.ToString().Replace("&quot;", "");
+    Newtonsoft.Json.Linq.JObject dataForSerealizationJson = Newtonsoft.Json.Linq.JObject.Parse(c);
+}
+
+<script src="~/Scripts/protocol.js"></script>
+<div class="jumbotron">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+
+    <form id="chatform" action="">
+        <input id="inputbox" />
+    </form>
+
+    <div id="messages" />
+
+    <script>
+
+        //if ('WebSocket' in window) {
+        //    alert("lololo");
+        //} else {
+        //    alert("no");
+        //}
+
+        $(document).ready(
+
+            );
+
+        var number = 0;
+
+        var uri = "ws://websocketserver.local/api/chat/get" + '?username=' + number;
+
+        number++;
+
+        websocket = new WebSocket(uri);
+
+        websocket.binaryType = 'blob';
+
+        websocket.onopen = function () {
+
+            $('#messages').prepend('<div>Connected.</div>');
+
+            $('#chatform').submit(function (event) {
+                websocket.send($('#inputbox').val());
+
+                $('#inputbox').val('');
+
+                event.preventDefault();
+            });
+
+            getTradeContribs('{"server": { "id": 101, "name": "lastpayment", "data": [{  "date": 231,  "comment": 9,  "amount": 1023 },{  "date": 166,  "comment": 56,  "amount": 65 }]}}');
+        };
+
+        websocket.onerror = function (event) {
+            debugger
+            $('#messages').prepend('<div>ERROR</div>');
+        };
+
+        websocket.onmessage = function (event) {
+
+            var data = event.data;
+
+            var arrayBuffer;
+
+            var fileReader = new FileReader();
+
+            fileReader.onload = function (fgh) {
+                arrayBuffer = this.result;
+
+                $('#messages').prepend('<div>' + a.decode(arrayBuffer) + '</div>');
+            };      
+
+            fileReader.readAsBinaryString(data)
+            var dv = new Uint8Array(data);
+            var a = new Protocol("client", "@c.ToString()".replace(/&quot;/g,'"') );
+        };
+
+        function getTradeContribs(json) {
+            debugger
+            $.ajax({
+ 
+                url: "http://websocketserver.local/api/chat/getTradeContribs",
+                type: "GET",
+                Origin: "http://websocketclient.local",
+                crossDomain: true,
+                data: { manifest: json },
+                success: function (response) { debugger; alert(response) },
+                error: function (error) {
+                    debugger
+                    alert("failed in opening Trade Contribs file !!!");
+                }
+            });
+        }
+        debugger
+    </script>
+</div>

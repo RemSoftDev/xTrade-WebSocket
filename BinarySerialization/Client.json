@@ -1,0 +1,10 @@
+﻿{
+  "client":
+    {
+      "id": 1,
+      "name": "stock",
+      "data": {
+        "symbol": "string"
+      }
+    }
+}

@@ -1,0 +1,106 @@
+{
+    "client": [
+        {
+            "id": 17,
+            "name": "values",
+            "data": {
+                "valChar": "char",
+                "valByte": "byte",
+                "valUByte": "ubyte",
+                "valInt16": "int16",
+                "valUInt16": "uint16",
+                "valInt32": "int32",
+                "valUInt32": "uint32",
+                "valObject": {
+                    "objChar": "char",
+                    "objInt32": "int32",
+                    "objFloat": "double",
+                    "objDate": "date"
+                },
+                "valFloat": "float",
+                "valDouble": "double",
+                "valCurrency": "currency",
+                "valString": "string",
+                "valDateTime": "datetime",
+                "valDate": "date",
+                "valTime": "time"
+            }
+        },
+        {
+            "id": 29,
+            "name": "arrays",
+            "data": {
+                "arrChar": [{
+                    "valChar": "char"
+                }],
+                "arrInt32": [{
+                    "valInt32": "int32"
+                }],
+                "arrFloat": [{
+                    "valFloat": "double"
+                }],
+                "arrDate": [{
+                    "valDate": "date"
+                }],
+                "arrMixed": [{
+                    "valChar": "char",
+                    "valInt32": "int32",
+                    "valFloat": "double",
+                    "valDate": "date"
+                }]
+            }
+        }
+    ],
+    "server": [
+        {
+            "id": 48,
+            "name": "values",
+            "data": {
+                "valChar": "char",
+                "valByte": "byte",
+                "valUByte": "ubyte",
+                "valInt16": "int16",
+                "valUInt16": "uint16",
+                "valInt32": "int32",
+                "valUInt32": "uint32",
+                "valObject": {
+                    "objChar": "char",
+                    "objInt32": "int32",
+                    "objFloat": "double",
+                    "objDate": "date"
+                },
+                "valFloat": "float",
+                "valDouble": "double",
+                "valCurrency": "currency",
+                "valString": "string",
+                "valDateTime": "datetime",
+                "valDate": "date",
+                "valTime": "time"
+            }
+        },
+        {
+            "id": 211,
+            "name": "arrays",
+            "data": {
+                "arrChar": [{
+                    "valChar": "char"
+                }],
+                "arrInt32": [{
+                    "valInt32": "int32"
+                }],
+                "arrFloat": [{
+                    "valFloat": "double"
+                }],
+                "arrDate": [{
+                    "valDate": "date"
+                }],
+                "arrMixed": [{
+                    "valChar": "char",
+                    "valInt32": "int32",
+                    "valFloat": "double",
+                    "valDate": "date"
+                }]
+            }
+        }
+    ]
+}
